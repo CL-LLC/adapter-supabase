@@ -246,13 +246,18 @@ export class SupabaseDatabaseAdapter extends DatabaseAdapter {
         query_field_name: string;
         query_field_sub_name: string;
         query_match_count: number;
-    }): Promise<
-        {
-            embedding: number[];
-            levenshtein_score: number;
-        }[]
-    > {
-        const result = await this.supabase.rpc("get_embedding_list", opts);
+    }): Promise<{
+        embedding: number[];
+        levenshtein_score: number;
+    }[]> {
+        const result = await this.supabase.rpc("get_embedding_list", {
+            query_table_name: opts.query_table_name,
+            query_threshold: opts.query_threshold,
+            query_input: opts.query_input,
+            query_field_name: opts.query_field_name,
+            query_field_sub_name: opts.query_field_sub_name,
+            query_match_count: opts.query_match_count
+        });
         if (result.error) {
             throw new Error(JSON.stringify(result.error));
         }
@@ -597,7 +602,7 @@ export class SupabaseDatabaseAdapter extends DatabaseAdapter {
             );
         }
 
-        return [...new Set(data.map((row) => row.roomId as UUID))] as UUID[];
+        return Array.from(new Set(data.map((row) => row.roomId as UUID))) as UUID[];
     }
 
     async createRoom(roomId?: UUID): Promise<UUID> {
