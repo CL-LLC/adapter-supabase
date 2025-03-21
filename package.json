@@ -1,5 +1,5 @@
 {
-    "name": "@elizaos-plugins/adapter-supabase",
+    "name": "@cl-llc/adapter-supabase",
     "version": "0.25.6-alpha.1",
     "type": "module",
     "main": "dist/index.js",
@@ -9,7 +9,7 @@
         "./package.json": "./package.json",
         ".": {
             "import": {
-                "@elizaos/source": "./src/index.ts",
+                "@cl-llc/source": "./src/index.ts",
                 "types": "./dist/index.d.ts",
                 "default": "./dist/index.js"
             }
